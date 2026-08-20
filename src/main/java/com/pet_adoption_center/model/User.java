@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -26,5 +27,8 @@ public class User {
     private String gender;
     private String role;
 
-
+    @ElementCollection
+    @CollectionTable(name = "user_adopted_pets", joinColumns = @JoinColumn(name = "user_id"))
+    @Column(name = "pet_name")
+    private List<String> adoptedPet;
 }
