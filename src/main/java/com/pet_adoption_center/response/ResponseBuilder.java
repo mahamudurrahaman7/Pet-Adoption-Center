@@ -25,36 +25,32 @@ public class ResponseBuilder {
                                                             String message,
                                                             T data){
 
+        ApiResponse <T> apiResponse = new ApiResponse<>();
+
+        apiResponse.setStatus(status.value());
+        apiResponse.setSuccess(status.is2xxSuccessful());
+        apiResponse.setMessage(message);
+
+        if(data instanceof Page<?> page){
+
+            Meta meta =  new Meta();
+            meta.setTotalElements(page.getTotalElements());
+            meta.setTotalPages(page.getTotalPages());
+            meta.setSize(page.getSize());
+            meta.setNumber(page.getNumber());
+
+            apiResponse.setMeta(meta);
+
+
+            apiResponse.setData((T) page.getContent());
 
 
 
+        }else {
+            apiResponse.setData(data);
+        }
 
-       ApiResponse <T> apiResponse = new ApiResponse<>();
-
-       apiResponse.setStatus(status.value());
-       apiResponse.setSuccess(status.is2xxSuccessful());
-       apiResponse.setMessage(message);
-
-       if(data instanceof Page<?> page){
-
-           Meta meta =  new Meta();
-           meta.setTotalElements(page.getTotalElements());
-           meta.setTotalPages(page.getTotalPages());
-           meta.setSize(page.getSize());
-           meta.setNumber(page.getNumber());
-
-           apiResponse.setMeta(meta);
-
-
-           apiResponse.setData((T) page.getContent());
-
-
-
-       }else {
-           apiResponse.setData(data);
-       }
-
-       return ResponseEntity.status(status).body(apiResponse);
+        return ResponseEntity.status(status).body(apiResponse);
 
     }
 
