@@ -7,6 +7,8 @@ import com.pet_adoption_center.model.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring")
 public interface UserMapper {
 
@@ -17,7 +19,7 @@ public interface UserMapper {
     UserResponseDto toResponseDto(User user);
 
 
-
+    List<UserResponseDto> toResponseList(List<User> users);
 
 
 

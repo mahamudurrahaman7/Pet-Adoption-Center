@@ -22,7 +22,11 @@ public class User {
     private UUID id;
 
     private String name;
+
+    @Column(unique = true)
     private String email;
+
+    @Column(unique = true, name = "phone_number")
     private String phoneNumber;
 
     private Integer age;
@@ -30,6 +34,10 @@ public class User {
 
     @Enumerated(EnumType.STRING)          // Database will save String instead of 0,1
     private Role role;
+
+
+    @Column(name = "is_deleted")
+    private boolean isDeleted;
 
 
 }

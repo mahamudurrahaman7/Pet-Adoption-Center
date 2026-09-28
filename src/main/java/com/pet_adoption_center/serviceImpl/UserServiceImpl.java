@@ -7,10 +7,15 @@ import com.pet_adoption_center.model.User;
 import com.pet_adoption_center.service.UserService;
 import com.pet_adoption_center.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpStatusCodeException;
+import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import static com.pet_adoption_center.enums.Role.USER;
 
@@ -23,26 +28,29 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public List<User> getAllUsers() {
-        return List.of();
+    public List<UserResponseDto> getAllUsers() {
+
+        return userMapper.toResponseList(userRepository.findAllByIsDeletedFalse());
     }
 
     @Override
-    public Optional<User> getUserById(Long id) {
-        return Optional.empty();
+    public UserResponseDto getUserById(UUID id) {
+
+        User user = userRepository.findByIdAndIsDeletedFalse(id)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND, "User not found with id: " + id));
+
+        return userMapper.toResponseDto(user);
+
     }
 
     @Override
     public UserResponseDto createUser(CreateUserRequestDto createUserRequestDto) {
 
-        System.out.println(createUserRequestDto.getAge());
-        System.out.println(createUserRequestDto.getName());
 
         User user = userMapper.toEntity(createUserRequestDto);
         user.setRole(USER);
-
-        System.out.println(user.getAge());
-        System.out.println(user.getName());
+        user.setDeleted(false);
 
 
 

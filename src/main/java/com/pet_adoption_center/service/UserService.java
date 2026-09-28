@@ -7,12 +7,13 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 
 @Service
 public interface UserService {
-    List<User> getAllUsers();
-    Optional<User> getUserById(Long id);
+    List<UserResponseDto> getAllUsers();
+    UserResponseDto getUserById(UUID id);
     UserResponseDto createUser(CreateUserRequestDto user);
     UserResponseDto updateUser(User user);
     UserResponseDto partialUpdateUser(User user);
