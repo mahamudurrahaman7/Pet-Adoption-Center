@@ -2,8 +2,8 @@ package com.pet_adoption_center.controller;
 
 
 import com.pet_adoption_center.dto.CreateUserRequestDto;
+import com.pet_adoption_center.dto.UpdateUserRequestDto;
 import com.pet_adoption_center.dto.UserResponseDto;
-import com.pet_adoption_center.model.User;
 import com.pet_adoption_center.response.ApiResponse;
 import com.pet_adoption_center.response.ResponseBuilder;
 import com.pet_adoption_center.service.UserService;
@@ -24,55 +24,43 @@ import java.util.UUID;
 public class UserController {
     private final UserService userService;
 
-
-
     @PostMapping
-    public ResponseEntity<ApiResponse<UserResponseDto>> saveUser(@RequestBody CreateUserRequestDto  createUserRequestDto) {
-
-
+    public ResponseEntity<ApiResponse<UserResponseDto>> saveUser(@RequestBody CreateUserRequestDto createUserRequestDto) {
         return ResponseBuilder.status(HttpStatus.CREATED,
                 "New user is created successfully",
                 userService.createUser(createUserRequestDto)
-                );
-
-
+        );
     }
 
     @GetMapping
     public ResponseEntity<ApiResponse<List<UserResponseDto>>> getAllUsers(){
-
         return ResponseBuilder.status(HttpStatus.OK,
                 "All users is retrieved successfully",
                 userService.getAllUsers()
         );
-
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse<UserResponseDto>> getUserById(@PathVariable UUID id){
-
         return ResponseBuilder.status(HttpStatus.OK,
                 "User is retrieved successfully by id",
                 userService.getUserById(id)
         );
-
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ApiResponse<UserResponseDto>> updateUser(@PathVariable UUID id, @RequestBody User user) {
-        user.setId(id);
+    public ResponseEntity<ApiResponse<UserResponseDto>> updateUser(@PathVariable UUID id, @RequestBody UpdateUserRequestDto updateDto) {
         return ResponseBuilder.status(HttpStatus.OK,
                 "User is updated successfully",
-                userService.updateUser(user)
+                userService.updateUser(id, updateDto)
         );
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<ApiResponse<UserResponseDto>> partialUpdateUser(@PathVariable UUID id, @RequestBody User user) {
-        user.setId(id);
+    public ResponseEntity<ApiResponse<UserResponseDto>> partialUpdateUser(@PathVariable UUID id, @RequestBody UpdateUserRequestDto updateDto) {
         return ResponseBuilder.status(HttpStatus.OK,
                 "User is partially updated successfully",
-                userService.partialUpdateUser(user)
+                userService.partialUpdateUser(id, updateDto)
         );
     }
 
