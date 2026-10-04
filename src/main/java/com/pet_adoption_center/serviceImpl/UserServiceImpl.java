@@ -63,16 +63,44 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserResponseDto updateUser(User user) {
-        return null;
+        userRepository.findByIdAndIsDeletedFalse(user.getId())
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND, "User not found with id: " + user.getId()));
+
+        User savedUser = userRepository.save(user);
+        return userMapper.toResponseDto(savedUser);
     }
 
     @Override
     public UserResponseDto partialUpdateUser(User user) {
-        return null;
+        User existingUser = userRepository.findByIdAndIsDeletedFalse(user.getId())
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND, "User not found with id: " + user.getId()));
+
+        if (user.getName() != null) {
+            existingUser.setName(user.getName());
+        }
+        if (user.getEmail() != null) {
+            existingUser.setEmail(user.getEmail());
+        }
+        if (user.getPassword() != null) {
+            existingUser.setPassword(user.getPassword());
+        }
+        if (user.getRole() != null) {
+            existingUser.setRole(user.getRole());
+        }
+
+        User savedUser = userRepository.save(existingUser);
+        return userMapper.toResponseDto(savedUser);
     }
 
     @Override
-    public void deleteUser(Long id) {
+    public void deleteUser(UUID id) {
+        User user = userRepository.findByIdAndIsDeletedFalse(id)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND, "User not found with id: " + id));
 
+        user.setDeleted(true);
+        userRepository.save(user);
     }
 }

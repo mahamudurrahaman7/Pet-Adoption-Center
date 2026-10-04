@@ -17,5 +17,5 @@ public interface UserService {
     UserResponseDto createUser(CreateUserRequestDto user);
     UserResponseDto updateUser(User user);
     UserResponseDto partialUpdateUser(User user);
-    void deleteUser(Long id);
+    void deleteUser(UUID id);
 }

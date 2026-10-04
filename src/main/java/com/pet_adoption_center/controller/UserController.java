@@ -3,6 +3,7 @@ package com.pet_adoption_center.controller;
 
 import com.pet_adoption_center.dto.CreateUserRequestDto;
 import com.pet_adoption_center.dto.UserResponseDto;
+import com.pet_adoption_center.model.User;
 import com.pet_adoption_center.response.ApiResponse;
 import com.pet_adoption_center.response.ResponseBuilder;
 import com.pet_adoption_center.service.UserService;
@@ -57,11 +58,30 @@ public class UserController {
 
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<ApiResponse<UserResponseDto>> updateUser(@PathVariable UUID id, @RequestBody User user) {
+        user.setId(id);
+        return ResponseBuilder.status(HttpStatus.OK,
+                "User is updated successfully",
+                userService.updateUser(user)
+        );
+    }
 
+    @PatchMapping("/{id}")
+    public ResponseEntity<ApiResponse<UserResponseDto>> partialUpdateUser(@PathVariable UUID id, @RequestBody User user) {
+        user.setId(id);
+        return ResponseBuilder.status(HttpStatus.OK,
+                "User is partially updated successfully",
+                userService.partialUpdateUser(user)
+        );
+    }
 
-
-
-
-
-
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ApiResponse<Void>> deleteUser(@PathVariable UUID id) {
+        userService.deleteUser(id);
+        return ResponseBuilder.status(HttpStatus.OK,
+                "User is deleted successfully",
+                null
+        );
+    }
 }
