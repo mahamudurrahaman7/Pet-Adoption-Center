@@ -1,5 +1,6 @@
 package com.pet_adoption_center.model;
 
+import com.pet_adoption_center.enums.Gender;
 import com.pet_adoption_center.enums.Role;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -32,7 +33,9 @@ public class User {
     private String phoneNumber;
 
     private Integer age;
-    private String gender;
+
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
 
     @Enumerated(EnumType.STRING)          // Database will save String instead of 0,1
     private Role role;

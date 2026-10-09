@@ -1,6 +1,7 @@
 package com.pet_adoption_center.dto;
 
 
+import com.pet_adoption_center.enums.Gender;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -26,6 +27,5 @@ public class PatchUpdateUserRequestDto {
     @Min(0) @Max(150)
     private Integer age;
 
-    @Pattern(regexp = "^(?i)(MALE|FEMALE|OTHER|NON-BINARY)$", message = "Invalid gender")
-    private String gender;
+    private Gender gender;
 }

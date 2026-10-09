@@ -1,5 +1,6 @@
 package com.pet_adoption_center.dto;
 
+import com.pet_adoption_center.enums.Gender;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -31,9 +32,8 @@ public class CreateUserRequestDto {
     @Max(value = 150, message = "Age must be realistic")
     private Integer age;
 
-    @NotBlank(message = "Gender is required")
-    @Pattern(regexp = "^(?i)(MALE|FEMALE|OTHER|NON-BINARY)$", message = "Gender must be MALE, FEMALE, OTHER, or NON-BINARY")
-    private String gender;
+    @NotNull(message = "Gender is required")
+    private Gender gender;
 
     @NotBlank(message = "Password is required")
     private String password;

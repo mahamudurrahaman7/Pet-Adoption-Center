@@ -1,6 +1,7 @@
 package com.pet_adoption_center.dto;
 
 
+import com.pet_adoption_center.enums.Gender;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,7 +21,7 @@ public class UserResponseDto {
     private String phoneNumber;
 
     private Integer age;
-    private String gender;
+    private Gender gender;
 
 
 }
