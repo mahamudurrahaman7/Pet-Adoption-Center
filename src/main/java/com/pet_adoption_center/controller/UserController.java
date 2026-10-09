@@ -2,30 +2,31 @@ package com.pet_adoption_center.controller;
 
 
 import com.pet_adoption_center.dto.CreateUserRequestDto;
+import com.pet_adoption_center.dto.PatchUpdateUserRequestDto;
 import com.pet_adoption_center.dto.UpdateUserRequestDto;
 import com.pet_adoption_center.dto.UserResponseDto;
 import com.pet_adoption_center.response.ApiResponse;
 import com.pet_adoption_center.response.ResponseBuilder;
 import com.pet_adoption_center.service.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
 
-@Controller
+@RestController
 @Validated
 @RequiredArgsConstructor
-@RequestMapping("api/v1/users")
+@RequestMapping("/api/v1/users")
 public class UserController {
     private final UserService userService;
 
     @PostMapping
-    public ResponseEntity<ApiResponse<UserResponseDto>> saveUser(@RequestBody CreateUserRequestDto createUserRequestDto) {
+    public ResponseEntity<ApiResponse<UserResponseDto>> saveUser(@Valid @RequestBody CreateUserRequestDto createUserRequestDto) {
         return ResponseBuilder.status(HttpStatus.CREATED,
                 "New user is created successfully",
                 userService.createUser(createUserRequestDto)
@@ -49,7 +50,8 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ApiResponse<UserResponseDto>> updateUser(@PathVariable UUID id, @RequestBody UpdateUserRequestDto updateDto) {
+    public ResponseEntity<ApiResponse<UserResponseDto>> updateUser(@PathVariable UUID id,
+                                                                   @Valid @RequestBody UpdateUserRequestDto updateDto) {
         return ResponseBuilder.status(HttpStatus.OK,
                 "User is updated successfully",
                 userService.updateUser(id, updateDto)
@@ -57,7 +59,8 @@ public class UserController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<ApiResponse<UserResponseDto>> partialUpdateUser(@PathVariable UUID id, @RequestBody UpdateUserRequestDto updateDto) {
+    public ResponseEntity<ApiResponse<UserResponseDto>> partialUpdateUser(@PathVariable UUID id,
+                                                                          @Valid @RequestBody PatchUpdateUserRequestDto updateDto) {
         return ResponseBuilder.status(HttpStatus.OK,
                 "User is partially updated successfully",
                 userService.partialUpdateUser(id, updateDto)
@@ -69,7 +72,8 @@ public class UserController {
         userService.deleteUser(id);
         return ResponseBuilder.status(HttpStatus.OK,
                 "User is deleted successfully",
-                null
+            null
+
         );
     }
 }

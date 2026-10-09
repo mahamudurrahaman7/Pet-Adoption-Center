@@ -35,5 +35,8 @@ public class CreateUserRequestDto {
     @Pattern(regexp = "^(?i)(MALE|FEMALE|OTHER|NON-BINARY)$", message = "Gender must be MALE, FEMALE, OTHER, or NON-BINARY")
     private String gender;
 
+    @NotBlank(message = "Password is required")
+    private String password;
+
 
 }

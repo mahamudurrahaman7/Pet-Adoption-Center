@@ -1,6 +1,7 @@
 package com.pet_adoption_center.mapper;
 
 import com.pet_adoption_center.dto.CreateUserRequestDto;
+import com.pet_adoption_center.dto.PatchUpdateUserRequestDto;
 import com.pet_adoption_center.dto.UpdateUserRequestDto;
 import com.pet_adoption_center.dto.UserResponseDto;
 import com.pet_adoption_center.model.User;
@@ -32,5 +33,5 @@ public interface UserMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "role", ignore = true)
     @Mapping(target = "password", ignore = true)
-    void partialUpdateUserFromDto(UpdateUserRequestDto dto, @MappingTarget User user);
+    void partialUpdateUserFromDto(PatchUpdateUserRequestDto dto, @MappingTarget User user);
 }

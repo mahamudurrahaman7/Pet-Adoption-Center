@@ -7,26 +7,25 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data @AllArgsConstructor @NoArgsConstructor @Builder
-public class UpdateUserRequestDto {
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+public class PatchUpdateUserRequestDto {
 
-    @NotBlank(message = "Name is required")
-    @Size(min = 2, max = 100)
+
+    @Size(min = 2, max = 100, message = "Name must be between 2 and 100 characters")
     private String name;
 
-    @NotBlank(message = "Email is required")
-    @Email
+    @Email(message = "Invalid email format")
     private String email;
 
-    @NotBlank(message = "Phone number is required")
     @Pattern(regexp = "^1[3-9]\\d{8}$", message = "Invalid phone number")
     private String phoneNumber;
 
-    @NotNull(message = "Age is required")
     @Min(0) @Max(150)
     private Integer age;
 
-    @NotBlank(message = "Gender is required")
-    @Pattern(regexp = "^(?i)(MALE|FEMALE|OTHER|NON-BINARY)$")
+    @Pattern(regexp = "^(?i)(MALE|FEMALE|OTHER|NON-BINARY)$", message = "Invalid gender")
     private String gender;
 }
